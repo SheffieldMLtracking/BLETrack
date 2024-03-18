@@ -1,0 +1,14 @@
+{
+    "cmake.configureOnOpen": true,
+    "C_Cpp.default.configurationProvider": "nordic-semiconductor.nrf-connect",
+    "files.associations": {
+        "types.h": "c",
+        "soc.h": "c",
+        "bluetooth.h": "c",
+        "hci.h": "c",
+        "gatt.h": "c",
+        "sensor.h": "c",
+        "printk.h": "c",
+        "string.h": "c"
+    }
+}

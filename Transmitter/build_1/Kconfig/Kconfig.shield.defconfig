@@ -1,0 +1,2 @@
+osource "/home/christophernoroozi/Desktop/Transmitter/boards/shields/*/Kconfig.defconfig"
+osource "/home/christophernoroozi/ncs/v2.5.0/nrf/boards/shields/*/Kconfig.defconfig"
