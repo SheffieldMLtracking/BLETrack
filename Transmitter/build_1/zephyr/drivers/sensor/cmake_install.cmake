@@ -39,6 +39,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/qdec_nrfx/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/nrf5/cmake_install.cmake")
 endif()
 

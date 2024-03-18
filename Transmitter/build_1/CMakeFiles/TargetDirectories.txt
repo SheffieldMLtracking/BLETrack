@@ -196,6 +196,9 @@
 /home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/CMakeFiles/edit_cache.dir
 /home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/CMakeFiles/rebuild_cache.dir
 /home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/CMakeFiles/drivers__sensor.dir
+/home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/qdec_nrfx/CMakeFiles/rebuild_cache.dir
+/home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/qdec_nrfx/CMakeFiles/edit_cache.dir
+/home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/qdec_nrfx/CMakeFiles/drivers__sensor__qdec_nrfx.dir
 /home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/nrf5/CMakeFiles/rebuild_cache.dir
 /home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/sensor/nrf5/CMakeFiles/edit_cache.dir
 /home/christophernoroozi/Desktop/Transmitter/build_1/zephyr/drivers/serial/CMakeFiles/rebuild_cache.dir

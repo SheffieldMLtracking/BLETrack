@@ -31,6 +31,9 @@
 		mcuboot-button0 = &button0;
 		mcuboot-led0 = &led0;
 		watchdog0 = &wdt0;
+		qdec0 = &qdec0;
+		qenca = &phase_a;
+		qencb = &phase_b;
 	};
 	soc {
 		#address-cells = < 0x1 >;
@@ -185,7 +188,7 @@
 			interrupts = < 0x7 0x1 >;
 			status = "okay";
 			#io-channel-cells = < 0x1 >;
-			phandle = < 0x14 >;
+			phandle = < 0x15 >;
 		};
 		timer0: timer@40008000 {
 			compatible = "nordic,nrf-timer";
@@ -204,7 +207,7 @@
 			max-bit-width = < 0x20 >;
 			interrupts = < 0x9 0x1 >;
 			prescaler = < 0x0 >;
-			phandle = < 0x11 >;
+			phandle = < 0x12 >;
 		};
 		timer2: timer@4000a000 {
 			compatible = "nordic,nrf-timer";
@@ -268,7 +271,11 @@
 			compatible = "nordic,nrf-qdec";
 			reg = < 0x40012000 0x1000 >;
 			interrupts = < 0x12 0x1 >;
-			status = "disabled";
+			status = "okay";
+			pinctrl-0 = < &qdec_pinctrl >;
+			pinctrl-names = "default";
+			steps = < 0x14 >;
+			led-pre = < 0x0 >;
 		};
 		comp: comparator@40013000 {
 			compatible = "nordic,nrf-comp";
@@ -340,7 +347,7 @@
 			pinctrl-0 = < &pwm0_default >;
 			pinctrl-1 = < &pwm0_sleep >;
 			pinctrl-names = "default", "sleep";
-			phandle = < 0x13 >;
+			phandle = < 0x14 >;
 		};
 		pdm0: pdm@4001d000 {
 			compatible = "nordic,nrf-pdm";
@@ -443,7 +450,7 @@
 			#gpio-cells = < 0x2 >;
 			status = "okay";
 			port = < 0x0 >;
-			phandle = < 0x12 >;
+			phandle = < 0x13 >;
 		};
 	};
 	pinctrl: pin-controller {
@@ -488,14 +495,14 @@
 			};
 		};
 		pwm0_default: pwm0_default {
-			phandle = < 0xc >;
+			phandle = < 0xd >;
 			group1 {
 				psels = < 0x160011 >;
 				nordic,invert;
 			};
 		};
 		pwm0_sleep: pwm0_sleep {
-			phandle = < 0xd >;
+			phandle = < 0xe >;
 			group1 {
 				psels = < 0x160011 >;
 				low-power-enable;
@@ -528,16 +535,22 @@
 			};
 		};
 		spi2_default: spi2_default {
-			phandle = < 0xf >;
+			phandle = < 0x10 >;
 			group1 {
 				psels = < 0x40019 >, < 0x50017 >, < 0x60018 >;
 			};
 		};
 		spi2_sleep: spi2_sleep {
-			phandle = < 0x10 >;
+			phandle = < 0x11 >;
 			group1 {
 				psels = < 0x40019 >, < 0x50017 >, < 0x60018 >;
 				low-power-enable;
+			};
+		};
+		qdec_pinctrl: qdec_pinctrl {
+			phandle = < 0xc >;
+			group1 {
+				psels = < 0x1a001f >, < 0x1b001e >;
 			};
 		};
 	};
@@ -622,11 +635,20 @@
 		gpio-map-mask = < 0xffffffff 0xffffffc0 >;
 		gpio-map-pass-thru = < 0x0 0x3f >;
 		gpio-map = < 0x0 0x0 &gpio0 0x3 0x0 >, < 0x1 0x0 &gpio0 0x4 0x0 >, < 0x2 0x0 &gpio0 0x1c 0x0 >, < 0x3 0x0 &gpio0 0x1d 0x0 >, < 0x4 0x0 &gpio0 0x1e 0x0 >, < 0x5 0x0 &gpio0 0x1f 0x0 >, < 0x6 0x0 &gpio0 0xb 0x0 >, < 0x7 0x0 &gpio0 0xc 0x0 >, < 0x8 0x0 &gpio0 0xd 0x0 >, < 0x9 0x0 &gpio0 0xe 0x0 >, < 0xa 0x0 &gpio0 0xf 0x0 >, < 0xb 0x0 &gpio0 0x10 0x0 >, < 0xc 0x0 &gpio0 0x11 0x0 >, < 0xd 0x0 &gpio0 0x12 0x0 >, < 0xe 0x0 &gpio0 0x13 0x0 >, < 0xf 0x0 &gpio0 0x14 0x0 >, < 0x10 0x0 &gpio0 0x16 0x0 >, < 0x11 0x0 &gpio0 0x17 0x0 >, < 0x12 0x0 &gpio0 0x18 0x0 >, < 0x13 0x0 &gpio0 0x19 0x0 >, < 0x14 0x0 &gpio0 0x1a 0x0 >, < 0x15 0x0 &gpio0 0x1b 0x0 >;
-		phandle = < 0xe >;
+		phandle = < 0xf >;
 	};
 	arduino_adc: analog-connector {
 		compatible = "arduino,uno-adc";
 		#io-channel-cells = < 0x1 >;
 		io-channel-map = < 0x0 &adc 0x1 >, < 0x1 &adc 0x2 >, < 0x2 &adc 0x4 >, < 0x3 &adc 0x5 >, < 0x4 &adc 0x6 >, < 0x5 &adc 0x7 >;
+	};
+	encoder-emulate {
+		compatible = "gpio-leds";
+		phase_a: phase_a {
+			gpios = < &gpio0 0x3 0x0 >;
+		};
+		phase_b: phase_b {
+			gpios = < &gpio0 0x4 0x0 >;
+		};
 	};
 };
