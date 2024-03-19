@@ -198,7 +198,7 @@
 /* Notify the SDK about the fixed power mode (currently used only for Bypass):                                  */
 /*     - CFG_POWER_MODE_BYPASS = Bypass mode                                                                    */
 /****************************************************************************************************************/
-#undef CFG_POWER_MODE_BYPASS
+#define CFG_POWER_MODE_BYPASS
 
 #endif
 
