@@ -20,4 +20,5 @@ empty_file.o: \
  /home/christophernoroozi/ncs/v2.5.0/zephyr/dts/common/freq.h \
  /home/christophernoroozi/ncs/v2.5.0/zephyr/dts/arm/nordic/override.dtsi \
  /home/christophernoroozi/ncs/v2.5.0/zephyr/boards/arm/nrf52dk_nrf52832/nrf52dk_nrf52832-pinctrl.dtsi \
- /home/christophernoroozi/ncs/v2.5.0/zephyr/include/zephyr/dt-bindings/input/input-event-codes.h
+ /home/christophernoroozi/ncs/v2.5.0/zephyr/include/zephyr/dt-bindings/input/input-event-codes.h \
+ boards/nrf52840dk_nrf52840.overlay

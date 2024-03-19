@@ -315,6 +315,9 @@ DTC:FILEPATH=/home/christophernoroozi/ncs/toolchains/7795df4459/usr/bin/dtc
 // dts2.overlay"
 DTC_OVERLAY_FILE:STRING=
 
+//No help, variable specified on the command line.
+EXTRA_DTC_OVERLAY_FILE:UNINITIALIZED=boards/nrf52840dk_nrf52840.overlay
+
 //Linker BFD compatibility (compiler reported)
 GNULD_LINKER_IS_BFD:BOOL=ON
 
@@ -517,7 +520,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=158
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=159
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

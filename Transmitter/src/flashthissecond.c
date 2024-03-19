@@ -96,6 +96,16 @@ int main(void)
 		int uniqueID = 10;
 		int angleHex = (currentAngle - (currentAngle % 16)) / 16;
 		int angleRemainder = currentAngle % 16;
+
+		// Get current clock cycle (clock runs at 32768 Hz on nrf52dk_nrf52832 & (presumably) on the EV-BT832X)
+		int systemClockSpeed = 32768;
+		uint32_t systemClock = k_cycle_get_32() / (systemClockSpeed / 1000); // Divide to give ms accuracy.
+
+		// Transmitted Packets are in the format:
+			// 00 : First Two Hex Digits of Time : Next Two Hex Digits of Time : Last Two Hex Digits of Time : First Two Hex Digits of Angle : Last Hex Digit of Angle & ID
+		transmit_addr.a.val[4] = systemClock / 65536;
+		transmit_addr.a.val[3] = (systemClock % 65536) / 256;
+		transmit_addr.a.val[2] = systemClock % 256;
 		transmit_addr.a.val[1] = angleHex;
 		transmit_addr.a.val[0] = uniqueID + (angleRemainder * 16);
 
