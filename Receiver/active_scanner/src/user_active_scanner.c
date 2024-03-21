@@ -267,7 +267,6 @@ int count = 0;
 
 void user_adv_report_ind (struct gapm_adv_report_ind const * param ) {
 	uint8_t ad_len,index=0;
-	arch_printf("hi");
 	// report the bluetooth device address
 	/*arch_printf( "[%02x:%02x:%02x:",  (int)param->report.adv_addr.addr[5], (int)param->report.adv_addr.addr[4], (int)param->report.adv_addr.addr[3] );
   arch_printf( "%02x:%02x:%02x] ", (int)param->report.adv_addr.addr[2], (int)param->report.adv_addr.addr[1], (int)param->report.adv_addr.addr[0] );
