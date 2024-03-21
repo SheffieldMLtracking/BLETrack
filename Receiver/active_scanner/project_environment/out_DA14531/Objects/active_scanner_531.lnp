@@ -27,6 +27,7 @@
 ".\out_da14531\objects\uart.o"
 ".\out_da14531\objects\trng.o"
 ".\out_da14531\objects\dma.o"
+".\out_da14531\objects\rtc.o"
 ".\out_da14531\objects\rwble.o"
 ".\out_da14531\objects\rwip.o"
 ".\out_da14531\objects\rf_585.o"

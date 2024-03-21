@@ -876,6 +876,11 @@
               <FileType>1</FileType>
               <FilePath>.\..\..\..\..\..\\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\DA14531 DEVELOPMENT\DA145xx_SDK\6.0.16.1144\sdk\platform\driver\rtc\rtc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2081,6 +2086,11 @@
               <FileType>1</FileType>
               <FilePath>.\..\..\..\..\..\\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\DA14531 DEVELOPMENT\DA145xx_SDK\6.0.16.1144\sdk\platform\driver\rtc\rtc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2491,7 +2501,7 @@
             <UseTargetDll>0</UseTargetDll>
             <UseExternalTool>1</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
@@ -3234,6 +3244,11 @@
               <FileName>dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\..\..\..\..\..\\sdk\platform\driver\dma\dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\DA14531 DEVELOPMENT\DA145xx_SDK\6.0.16.1144\sdk\platform\driver\rtc\rtc.c</FilePath>
             </File>
           </Files>
         </Group>

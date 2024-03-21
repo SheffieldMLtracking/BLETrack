@@ -48,10 +48,14 @@
 #include "uart.h"
 #include "uart_utils.h"
 #include "da14531.h"
+#include "rtc.h"
+#include "arch_system.h"
 
-uint8_t receivedPackets[1000][3];
+uint8_t receivedPackets[2000][3];
 int receivedPacketsIndex = 0;
 char receivedString[1000];
+int minutesPassed = 0;
+
 /*
  * FUNCTION DEFINITIONS
  ****************************************************************************************
@@ -110,13 +114,90 @@ static const struct scan_configuration user_scan_conf ={
 
 void user_scan_start( void );
 
+void ble_stop_air_operation ( void ) ;
+/**
+ ****************************************************************************************
+ * @brief This cancels advertisements or scans
+ * @return void
+ ****************************************************************************************
+ */
+void ble_stop_air_operation(void)
+{
+	//allocate message space for command
+	struct gapm_cancel_cmd *cmd = KE_MSG_ALLOC(GAPM_CANCEL_CMD,
+																						TASK_GAPM,
+																						TASK_APP, 
+																						gapm_cancel_cmd);
+	//cancel air operation
+	cmd->operation = GAPM_CANCEL;
 
+	ke_msg_send(cmd);
+	
+}
+
+// RTC interrupt to stop scanning
+static void rtc_interrupt_cb(uint8_t event)
+{
+		minutesPassed++;
+		arch_printf("Minutes Passed: %d\n", minutesPassed);
+		if(minutesPassed > 2)
+		{
+			ble_stop_air_operation();
+		}
+}
 
 void user_app_on_init(void)
 {
 
+		/* Power domain in which the RTC resides is disabled by default and so
+		needs to be enabled before we can use it.  */
+		SetBits16(PMU_CTRL_REG, TIM_SLEEP, 0);
+		while ((GetWord32(SYS_STAT_REG) & TIM_IS_UP) != TIM_IS_UP);
+
+		/* Put RTC into known state */
+		rtc_reset();
+
+		/* Configure the RTC 100Hz clock, based on the LP clock frequency */
+		if (arch_clk_is_RCX20()) {
+				extern uint32_t rcx_freq;
+				/* Use the calibrated RCX frequency */
+				rtc_clk_config(RTC_DIV_DENOM_1000, rcx_freq);
+		} else {
+				rtc_clk_config(RTC_DIV_DENOM_1024, 32768);
+		}
+		rtc_clock_enable();
+
+		/* Default RTC configuration */
+		static const rtc_config_t cfg_rtc = {
+			.hour_clk_mode = RTC_HOUR_MODE_24H,
+			.keep_rtc = true,
+		};
+
+		/* Initialize RTC, it will be started when the date and time are set */
+		rtc_init(&cfg_rtc);
+
+		rtc_time_t time;
+		rtc_calendar_t clndr;
+		rtc_status_code_t status;
+
+		time.hour = 0;
+		time.minute = 0;
+		time.sec = 0;
+		time.hsec = 0;
+		time.hour_mode = RTC_HOUR_MODE_24H;
+		clndr.year = 1970;
+		clndr.month = 1;
+		clndr.mday = 1;
+		clndr.wday = 1;
+
+		/* Setting the time/date will also start the RTC if it was not running */
+		status = rtc_set_time_clndr(&time, &clndr);
+
+		arch_printf("\n\rInitialized RTC: 0x%02X", status);
     // Set sleep mode
     arch_set_sleep_mode(app_default_sleep_mode);
+		
+		rtc_register_intr(rtc_interrupt_cb, RTC_EVENT_MIN);
     
 }
 
@@ -161,7 +242,7 @@ static void user_scan_start(void)
     // We are now connectable
     ke_state_set(TASK_APP, APP_CONNECTABLE);
     
-		//arch_printf( "SCAN START\r\n");
+		arch_printf( "SCAN START\r\n");
     
 }
 
@@ -173,7 +254,7 @@ static void user_scan_start(void)
  */
 void user_on_scan_complete(const uint8_t param){
     arch_printf( "SCAN COMPLETE\r\n");
-		user_scan_start();
+		//user_scan_start();
 }
 
 /**
@@ -186,7 +267,7 @@ int count = 0;
 
 void user_adv_report_ind (struct gapm_adv_report_ind const * param ) {
 	uint8_t ad_len,index=0;
-	
+	arch_printf("hi");
 	// report the bluetooth device address
 	/*arch_printf( "[%02x:%02x:%02x:",  (int)param->report.adv_addr.addr[5], (int)param->report.adv_addr.addr[4], (int)param->report.adv_addr.addr[3] );
   arch_printf( "%02x:%02x:%02x] ", (int)param->report.adv_addr.addr[2], (int)param->report.adv_addr.addr[1], (int)param->report.adv_addr.addr[0] );
@@ -201,14 +282,14 @@ void user_adv_report_ind (struct gapm_adv_report_ind const * param ) {
 	//BLE_BDADDRL_REG 
 	/** New **/
 	//arch_printf(".");
-	if(param->report.evt_type == ADV_CONN_DIR )
+	if(param->report.evt_type == ADV_CONN_DIR)
 	{
-		arch_printf("Found ADV_DIRECT_IND packet \r\n");
+		//arch_printf("Found ADV_DIRECT_IND packet \r\n");
 		uint8_t rssi_abs = 256 - param->report.rssi;
-		arch_printf("RSSI: -%d\r\n", rssi_abs);
+		arch_printf("RSSI: -%d ", rssi_abs);
 		// report the bluetooth device address
 		arch_printf( "[%02x:%02x:%02x:",  (int)param->report.adv_addr.addr[5], (int)param->report.adv_addr.addr[4], (int)param->report.adv_addr.addr[3] );
-		arch_printf( "%02x:%02x:%02x] ", (int)param->report.adv_addr.addr[2], (int)param->report.adv_addr.addr[1], (int)param->report.adv_addr.addr[0] );
+		arch_printf( "%02x:%02x:%02x]\n\r", (int)param->report.adv_addr.addr[2], (int)param->report.adv_addr.addr[1], (int)param->report.adv_addr.addr[0] );
 		//arch_printf( "%s", param->report);
 		
 		receivedPackets[receivedPacketsIndex][0] = rssi_abs;
@@ -216,11 +297,6 @@ void user_adv_report_ind (struct gapm_adv_report_ind const * param ) {
 		receivedPackets[receivedPacketsIndex][2] = (int)param->report.adv_addr.addr[1];
 		sprintf(&receivedString[receivedPacketsIndex*4],"%02x%02x",rssi_abs,(int)param->report.adv_addr.addr[0] % 16);
 		receivedPacketsIndex = receivedPacketsIndex + 1;
-		
-		if(receivedPacketsIndex >= 999)
-		{
-			arch_printf("read");
-		}
 	}
 	return;
 	/*********/

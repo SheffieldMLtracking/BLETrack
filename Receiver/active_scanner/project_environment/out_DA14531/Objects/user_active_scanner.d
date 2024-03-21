@@ -113,3 +113,5 @@
 .\out_da14531\objects\user_active_scanner.o: .\..\..\..\..\..\sdk\platform\driver\uart\uart.h
 .\out_da14531\objects\user_active_scanner.o: .\..\..\..\..\..\sdk\platform\driver\dma\dma.h
 .\out_da14531\objects\user_active_scanner.o: .\..\..\..\..\..\sdk\platform\driver\uart\uart_utils.h
+.\out_da14531\objects\user_active_scanner.o: .\..\..\..\..\..\sdk\platform\driver\rtc\rtc.h
+.\out_da14531\objects\user_active_scanner.o: .\..\..\..\..\..\sdk\platform\arch\main\arch_system.h

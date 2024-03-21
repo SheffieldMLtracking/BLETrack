@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Tue Mar 19 10:48:04 2024
+;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Thu Mar 21 11:55:43 2024
 ;VERSION 0.2
 ;FILE adc_531.o
 adc_correct_sample <= USED 0
@@ -196,6 +196,11 @@ rf_ldo_cont_mode_en <= USED 0
 rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
 rf_power_down <= USED 0
+;FILE rtc.o
+rtc_get_alarm <= USED 0
+rtc_get_time_clndr <= USED 0
+rtc_set_alarm <= USED 0
+rtc_unregister_intr <= USED 0
 ;FILE rwble.o
 ;FILE rwip.o
 ;FILE spi_531.o
