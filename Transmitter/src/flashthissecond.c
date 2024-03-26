@@ -15,6 +15,7 @@
 #include <zephyr/bluetooth/gatt.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/sensor.h>
+#include <zephyr/drivers/gpio.h>
 
 static struct bt_le_adv_param adv_param; // Holds params for advertising
 static bt_addr_le_t bond_addr; // Address to advertise to (reciever address)
@@ -23,6 +24,23 @@ static bt_addr_le_t transmit_addr; // Address to transmit from (transmitter addr
 
 struct sensor_value val;
 const struct device *const dev = DEVICE_DT_GET(DT_ALIAS(qdec0));
+
+#define HE0_NODE DT_ALIAS(sw0)
+static const struct gpio_dt_spec HESensor = GPIO_DT_SPEC_GET(HE0_NODE, gpios);
+static struct gpio_callback halleffect_cb_data;
+
+int currentAngle = 0; // Stores angle of rotation
+int actualDegrees = 0;
+
+// ---------------------------- HALL EFFECT INTERRUPT -------------------------
+
+void halleffect_cb(const struct device *dev, struct gpio_callback *cb,
+                    uint32_t pins)
+{
+    //printk("HE triggered");
+	currentAngle = 0;
+	actualDegrees = 0;
+}
 
 // ---------------------------- DIRECT ADVERTISING ----------------------------
 
@@ -37,6 +55,11 @@ static void bt_ready(void)
 
 int main(void)
 {
+	gpio_pin_configure_dt(&HESensor, GPIO_INPUT);
+	gpio_pin_interrupt_configure_dt(&HESensor, GPIO_INT_EDGE_BOTH);
+	gpio_init_callback(&halleffect_cb_data, halleffect_cb, BIT(HESensor.pin));
+	gpio_add_callback(HESensor.port, &halleffect_cb_data);
+
 	int err;
 	// NOTE: ID creation should be before bt_enable to get around IRK (I think) and privacy must be turned off in the config
 	// Create ID 0, this is needed (I think?) but the identity does not get used
@@ -65,7 +88,6 @@ int main(void)
 
 	// Begin advertisement
 	bt_ready();
-	int currentAngle = 0;
 
 	while (1) {
 		char toAddrOutput[BT_ADDR_LE_STR_LEN];
@@ -80,7 +102,7 @@ int main(void)
 		sensor_sample_fetch(dev);
 		sensor_channel_get(dev, SENSOR_CHAN_ROTATION, &val);
 
-		int actualDegrees = (val.val1 / 488);
+		actualDegrees = (val.val1 / 488);
 		currentAngle += actualDegrees;
 
 		if (currentAngle > 359)
@@ -114,9 +136,9 @@ int main(void)
 		bt_id_reset(1,&transmit_addr, NULL); // Update ID with new transmitter address
 
 		// Debug output addresses
-		//bt_addr_le_to_str(&bond_addr, toAddrOutput, sizeof(toAddrOutput));
-		//bt_addr_le_to_str(&transmit_addr, fromAddrOutput, sizeof(fromAddrOutput));
-		//printk("Direct advertising to %s from %s\n", toAddrOutput, fromAddrOutput);
+		bt_addr_le_to_str(&bond_addr, toAddrOutput, sizeof(toAddrOutput));
+		bt_addr_le_to_str(&transmit_addr, fromAddrOutput, sizeof(fromAddrOutput));
+		printk("Direct advertising to %s from %s\n", toAddrOutput, fromAddrOutput);
 
 		// Send direct advertisment
 		adv_param = *BT_LE_ADV_CONN_DIR(&bond_addr); // Advertise to reciever address

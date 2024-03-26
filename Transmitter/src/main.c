@@ -13,7 +13,7 @@
 #include <zephyr/bluetooth/conn.h>
 #include <zephyr/bluetooth/uuid.h>
 #include <zephyr/bluetooth/gatt.h>
-
+//#include <zephyr/drivers/gpio.h>
 
 static struct bt_le_adv_param adv_param; // Holds params for advertising
 static bt_addr_le_t bond_addr; // Address to advertise to (reciever address)
@@ -22,6 +22,18 @@ static bt_addr_le_t transmit_addr; // Address to transmit from (transmitter addr
 
 static void advertising_start(struct k_work *work);
 static K_WORK_DEFINE(start_advertising_worker, advertising_start);
+
+//#define SW0_NODE DT_ALIAS(sw0)
+//static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
+//static struct gpio_callback button_cb_data;
+
+// ---------------------------- GPIO - IR --------------------------------------
+
+void halleffect_triggered(const struct device *dev, struct gpio_callback *cb,
+                    uint32_t pins)
+{
+    printk("HE triggered");
+}
 
 // ---------------------------- NECESSARY FUNCTIONS ----------------------------
 
@@ -96,8 +108,14 @@ static void bt_ready(void)
 
 int main(void)
 {
-	int err;
 
+	//gpio_pin_configure_dt(&button, GPIO_INPUT);
+
+	//gpio_pin_interrupt_configure_dt(&button, GPIO_INT_EDGE_BOTH);
+
+	//gpio_init_callback(&button_cb_data, halleffect_triggered, BIT(button.pin));
+	//gpio_add_callback(button.port, &button_cb_data);
+	int err;
 	// NOTE: ID creation should be before bt_enable to get around IRK (I think) and privacy must be turned off in the config
 	// Create ID 0, this is needed (I think?) but the identity does not get used
 	bt_addr_le_from_str("DA:EE:AA:FF:FF:41", "random", &identity_zero_addr); // Has to be different to ID 1 upon initialization
