@@ -40,3 +40,39 @@
 	steps = < 20 >;
 	led-pre = < 0 >;
 };
+
+&button0 {
+	/delete-property/ gpios;
+};
+
+&button0 {
+	gpios = <&gpio0 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 (GPIO_ACTIVE_LOW | GPIO_PULL_DOWN)>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 0>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 (GPIO_ACTIVE_LOW | GPIO_OPEN_SOURCE)>;
+};
+
+&button0 {
+	gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+};
