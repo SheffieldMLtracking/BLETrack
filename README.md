@@ -3,6 +3,7 @@ Code for Bluetooth Low Energy bee tracking system.
 
 + "Transmitter" folder contains the code to be flashed to the BT832X/BM832E transmitter board.
 + "Receiver" folder contains the code to be flashed to the DA14531 chip on-tag.
++ "To Print" folder contains [FreeCAD](https://www.freecad.org/) files of the transmitter housing.
 
 ## Transmitter programming:
 + Requires [nRF Connect SDK](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK).
