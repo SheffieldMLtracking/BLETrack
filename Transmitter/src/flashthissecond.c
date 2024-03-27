@@ -105,7 +105,7 @@ int main(void)
 		actualDegrees = (val.val1 / 488);
 		currentAngle += actualDegrees;
 
-		if (currentAngle > 359)
+		if (currentAngle >= 360)
 		{
 			currentAngle = (currentAngle % 360);
 		}
