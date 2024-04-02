@@ -9,7 +9,9 @@ Code for Bluetooth Low Energy bee tracking system.
 + Requires [nRF Connect SDK](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK).
 + Create a build for the nrf52dk_nrf52832 and add the included device tree overlay.
 + Connect nrf52dk and BT832X/BM832E to the computer via JLINK (done via micro USB cable). Connect DEBUG OUT on nrf52dk to DEBUG IN on BT832X/BM832E:![nrf52dk_programming_example](https://github.com/SheffieldMLtracking/BLETrack/assets/48182877/72ba9a20-63c9-43b5-8ed9-a530d90849f3)
-+ flashthisfirst.c must be flashed to the BT832X/BM832E first - then main.c can be flashed. 
++ flashthisfirst.c must be flashed to the BT832X/BM832E first - then main.c can be flashed.
+
+NOTE: P0.31 is used for encoder output B, P0.30 for encoder output A and P0.11 for hall effect sensor input.
 
 ## Receiver programming:
 + Requires Keil uVision and configuration of environment as shown [here](https://lpccs-docs.renesas.com/UM-B-117-DA14531-Getting-Started-With-The-Pro-Development-Kit/01_abstract/abstract.html).
