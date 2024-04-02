@@ -102,15 +102,14 @@ int main(void)
 		sensor_sample_fetch(dev);
 		sensor_channel_get(dev, SENSOR_CHAN_ROTATION, &val);
 
-		actualDegrees = (val.val1 / 488);
-		currentAngle += actualDegrees;
-
-		if (currentAngle > 359)
+		actualDegrees += val.val1;
+		currentAngle = actualDegrees/(9765/20);
+		if (currentAngle >= 360)
 		{
-			currentAngle = (currentAngle % 360);
+			actualDegrees = 0;
+			currentAngle = 0;
 		}
-
-		//printk("Position = %d degrees\n", currentAngle);
+		printk("Position = %d degrees\n", actualDegrees/(9765/20));
 
 		
 		
@@ -138,7 +137,7 @@ int main(void)
 		// Debug output addresses
 		bt_addr_le_to_str(&bond_addr, toAddrOutput, sizeof(toAddrOutput));
 		bt_addr_le_to_str(&transmit_addr, fromAddrOutput, sizeof(fromAddrOutput));
-		printk("Direct advertising to %s from %s\n", toAddrOutput, fromAddrOutput);
+		//printk("Direct advertising to %s from %s\n", toAddrOutput, fromAddrOutput);
 
 		// Send direct advertisment
 		adv_param = *BT_LE_ADV_CONN_DIR(&bond_addr); // Advertise to reciever address
