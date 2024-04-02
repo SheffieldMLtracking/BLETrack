@@ -3,7 +3,6 @@
 #include <zephyr/types.h>
 #include <stddef.h>
 #include <string.h>
-#include <math.h>
 #include <errno.h>
 #include <zephyr/sys/printk.h>
 #include <zephyr/sys/byteorder.h>
@@ -30,8 +29,8 @@ const struct device *const dev = DEVICE_DT_GET(DT_ALIAS(qdec0));
 static const struct gpio_dt_spec HESensor = GPIO_DT_SPEC_GET(HE0_NODE, gpios);
 static struct gpio_callback halleffect_cb_data;
 
-float currentAngle = 0; // Stores angle of rotation
-float actualDegrees = 0;
+int currentAngle = 0; // Stores angle of rotation
+int actualDegrees = 0;
 
 // ---------------------------- HALL EFFECT INTERRUPT -------------------------
 
@@ -103,22 +102,21 @@ int main(void)
 		sensor_sample_fetch(dev);
 		sensor_channel_get(dev, SENSOR_CHAN_ROTATION, &val);
 
-		actualDegrees = (val.val1 / 488.3);
-		currentAngle += actualDegrees;
-
+		actualDegrees += val.val1;
+		currentAngle = actualDegrees/(9765/20);
 		if (currentAngle >= 360)
 		{
-			currentAngle = fmod(currentAngle, 360);
+			actualDegrees = 0;
+			currentAngle = 0;
 		}
-
-		//printk("Position = %d degrees\n", currentAngle);
+		printk("Position = %d degrees\n", actualDegrees/(9765/20));
 
 		
 		
 		//transmit_addr.a.val[0]=transmit_addr.a.val[0]+1; // Alter transmitter address
 		int uniqueID = 10;
-		int angleHex = (currentAngle - fmod(currentAngle, 16.0f)) / 16;
-		int angleRemainder = fmod(currentAngle, 16.0f);
+		int angleHex = (currentAngle - (currentAngle % 16)) / 16;
+		int angleRemainder = currentAngle % 16;
 
 		// Get current clock cycle (clock runs at 32768 Hz on nrf52dk_nrf52832 & (presumably) on the EV-BT832X)
 		int systemClockSpeed = 32768;
@@ -139,7 +137,7 @@ int main(void)
 		// Debug output addresses
 		bt_addr_le_to_str(&bond_addr, toAddrOutput, sizeof(toAddrOutput));
 		bt_addr_le_to_str(&transmit_addr, fromAddrOutput, sizeof(fromAddrOutput));
-		printk("Direct advertising to %s from %s\n", toAddrOutput, fromAddrOutput);
+		//printk("Direct advertising to %s from %s\n", toAddrOutput, fromAddrOutput);
 
 		// Send direct advertisment
 		adv_param = *BT_LE_ADV_CONN_DIR(&bond_addr); // Advertise to reciever address
