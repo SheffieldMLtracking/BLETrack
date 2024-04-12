@@ -51,9 +51,9 @@
 #include "rtc.h"
 #include "arch_system.h"
 
-uint8_t receivedPackets[2000][3];
+uint8_t receivedPacketsA[1000][6];
+uint8_t receivedPacketsB[1000][6];
 int receivedPacketsIndex = 0;
-char receivedString[1000];
 int minutesPassed = 0;
 
 /*
@@ -290,11 +290,23 @@ void user_adv_report_ind (struct gapm_adv_report_ind const * param ) {
 		arch_printf( "[%02x:%02x:%02x:",  (int)param->report.adv_addr.addr[5], (int)param->report.adv_addr.addr[4], (int)param->report.adv_addr.addr[3] );
 		arch_printf( "%02x:%02x:%02x]\n\r", (int)param->report.adv_addr.addr[2], (int)param->report.adv_addr.addr[1], (int)param->report.adv_addr.addr[0] );
 		//arch_printf( "%s", param->report);
-		
-		receivedPackets[receivedPacketsIndex][0] = rssi_abs;
-		receivedPackets[receivedPacketsIndex][1] = (int)param->report.adv_addr.addr[0];
-		receivedPackets[receivedPacketsIndex][2] = (int)param->report.adv_addr.addr[1];
-		sprintf(&receivedString[receivedPacketsIndex*4],"%02x%02x",rssi_abs,(int)param->report.adv_addr.addr[0] % 16);
+		if(receivedPacketsIndex < 1000)
+		{
+			receivedPacketsA[receivedPacketsIndex][0] = rssi_abs;
+			receivedPacketsA[receivedPacketsIndex][1] = (int)param->report.adv_addr.addr[0];
+			receivedPacketsA[receivedPacketsIndex][2] = (int)param->report.adv_addr.addr[1];
+			receivedPacketsA[receivedPacketsIndex][3] = (int)param->report.adv_addr.addr[2];
+			receivedPacketsA[receivedPacketsIndex][4] = (int)param->report.adv_addr.addr[3];
+			receivedPacketsA[receivedPacketsIndex][5] = (int)param->report.adv_addr.addr[4];
+		} else if ((receivedPacketsIndex > 1000) && (receivedPacketsIndex < 2000))
+		{
+			receivedPacketsB[receivedPacketsIndex - 1000][0] = rssi_abs;
+			receivedPacketsB[receivedPacketsIndex - 1000][1] = (int)param->report.adv_addr.addr[0];
+			receivedPacketsB[receivedPacketsIndex - 1000][2] = (int)param->report.adv_addr.addr[1];
+			receivedPacketsB[receivedPacketsIndex - 1000][3] = (int)param->report.adv_addr.addr[2];
+			receivedPacketsB[receivedPacketsIndex - 1000][4] = (int)param->report.adv_addr.addr[3];
+			receivedPacketsB[receivedPacketsIndex - 1000][5] = (int)param->report.adv_addr.addr[4];
+		}
 		receivedPacketsIndex = receivedPacketsIndex + 1;
 	}
 	return;
