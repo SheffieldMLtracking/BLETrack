@@ -22,6 +22,10 @@ static bt_addr_le_t bond_addr; // Address to advertise to (reciever address)
 static bt_addr_le_t identity_zero_addr; // Adress to initialize default ID 
 static bt_addr_le_t transmit_addr; // Address to transmit from (transmitter address)
 
+// For the qdec to work with the motor, navigate to where your nrf connect toolchain is located, go to the nrfx_qdec folder...
+// and in the .c file set the following under .config{}:
+//	.reportper = NRF_QDEC_REPORTPER_10,
+//	.sampleper = NRF_QDEC_SAMPLEPER_128US,
 struct sensor_value val;
 const struct device *const dev = DEVICE_DT_GET(DT_ALIAS(qdec0));
 
