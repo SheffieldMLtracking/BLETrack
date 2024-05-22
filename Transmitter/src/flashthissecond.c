@@ -35,15 +35,20 @@ static struct gpio_callback halleffect_cb_data;
 
 int currentAngle = 0; // Stores angle of rotation
 int actualDegrees = 0;
+bool hallEffectTriggerFlag = false;
 
 // ---------------------------- HALL EFFECT INTERRUPT -------------------------
 
 void halleffect_cb(const struct device *dev, struct gpio_callback *cb,
                     uint32_t pins)
 {
-    //printk("HE triggered");
-	currentAngle = 0;
-	actualDegrees = 0;
+	if (!hallEffectTriggerFlag)
+	{
+		//printk("HE triggered");
+		currentAngle = 0;
+		actualDegrees = 0;
+		hallEffectTriggerFlag = true;
+	}
 }
 
 // ---------------------------- DIRECT ADVERTISING ----------------------------
@@ -108,12 +113,17 @@ int main(void)
 
 		actualDegrees += val.val1;
 		currentAngle = actualDegrees/(9765/20);
+		if (currentAngle > 100)
+		{
+			hallEffectTriggerFlag = false;
+		}
+		
 		if (currentAngle >= 360)
 		{
 			actualDegrees = 0;
 			currentAngle = 0;
 		}
-		printk("Position = %d degrees\n", actualDegrees/(9765/20));
+		//printk("Position = %d degrees\n", currentAngle);
 
 		
 		
@@ -149,12 +159,12 @@ int main(void)
 		err = bt_le_adv_start(&adv_param, NULL, 0, NULL, 0);
 
 		// Output debug error
-		if (err) {
-			printk("Advertising failed to start (err %d)\n", err);
-		} else {
-			printk("Advertising successfully started\n");
-		}	
-		k_msleep(20);
+		//if (err) {
+			//printk("Advertising failed to start (err %d)\n", err);
+		//} else {
+			//printk("Advertising successfully started\n");
+		//}	
+		k_msleep(10);
 	}
 	return 0;
 }
