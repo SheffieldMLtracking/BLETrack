@@ -16,3 +16,7 @@ NOTE: P0.31 is used for encoder output A, P0.30 for encoder output B and P0.11 f
 ## Receiver programming:
 + Requires Keil uVision and configuration of environment as shown [here](https://lpccs-docs.renesas.com/UM-B-117-DA14531-Getting-Started-With-The-Pro-Development-Kit/01_abstract/abstract.html).
 + To program a receiver tag via flashing code to the OTP memory, follow [these](https://lpccs-docs.renesas.com/Tutorial_SDK6/otp_prog.html) instructions. **If you need to debug code on a tag, do not flash to the OTP.** DA14531 USB Development Kit can be used as a serial wire debug probe to debug code on an external DA14531 chip on the receiver tag using [this](https://lpccs-docs.renesas.com/Tutorial_SDK6/debug_probe.html) configuration of SWIO cables and DIP switches.
++ Note: binary for compiled DA14531 is found in Keil/DA14531_OUT/Objects.
++ Note: USB dev kit switches should be configured as shown: ![da14531_usb](https://github.com/user-attachments/assets/ea0dc939-af4d-4677-8ecf-7ada238475e3)
+
+  
