@@ -24,6 +24,7 @@ NOTE: P0.31 is used for encoder output A, P0.30 for encoder output B and P0.11 f
 
 ## Usage of the System
 ### Setting Up Transmitters
++ Charge transmitters before field trial!
 + Each transmitter is placed onto a tripod across the landscape. The 0 degree point on the tripod (denoted by the small magnet on the base the transmitter sits in) should be pointed north using a compass before placing the transmitter itself upon the tripod. The transmitter should be level with the ground and mounted as high up as possible.
 + As each transmitter is turned on, the time between turning each on should be taken using a stop watch. This time is later used to zero the time readouts in the packets.
 + Using the "Active Scanner" code downloaded to the DA14531 USB Dev Kit, the serial output from the dev kit - which can be accessed using a serial terminal program such as Tera Term - should be used to verify the functionality of the tramsitters. The packets recieved by the active scanner are in the following form and should be assessed to ensure that the transmitter is in fact transmitting and that the motor is reading out ~360 degrees of rotation, resetting at the zero point. If there is an issue, the transmitter may need reprogramming, regarching or the motor encoder may have been knocked out of place.
@@ -33,4 +34,9 @@ NOTE: P0.31 is used for encoder output A, P0.30 for encoder output B and P0.11 f
 ### Using a Receiever Tag
 + A programmed tag should be allowed to drain fully to hardware reset, then be charged and attatched to a bee.
 + Following retrieval, put the tag on charge and apply ground to the interrupt pin to switch the tag into transmit mode.
-+ Using a bluetooth sniffer (reccomended [nrf52 BLE sniffer](https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE)) and Wireshark the transmitted packets can be read. The following filter shows only read packets:  
++ Using a bluetooth sniffer (reccomended [nrf52 BLE sniffer](https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE)) and Wireshark the transmitted packets can be read. The following filter shows only read packets:
+<p align=center>btle.advertising_header.pdu_type == 0x01 && !_ws.expert && btle.advertising_address == 80:ea:ca:70:00:04</p> 
++ The data of each packet is encoded in the destination addr, in the same form as the transmitted packets except the RSSI of the packet is encoded in the leftmost byte.
+
+### Performing Infernece
++ Instructions for performing path inference on data are located in PathInferenceFinalCut.inpyb
