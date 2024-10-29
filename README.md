@@ -2,7 +2,7 @@
 Code for Bluetooth Low Energy bee tracking system.
 
 + "Transmitter" folder contains the code to be flashed to the BT832X/BM832E transmitter board.
-+ "Receiver" folder contains the code to be flashed to the DA14531 chip on-tag.
++ "Receiver" folder contains the code to be flashed to the DA14531 chip on-tag and the 'Active Scanner' code for testing & diagnostics.
 + "To Print" folder contains [FreeCAD](https://www.freecad.org/) files of the transmitter housing.
 + "Active Scanner" folder contains code used to test transmitter functionality, run on the DA14531 USB dev board
 + "Path Inference" folder contains code to process data from tag/dev board
