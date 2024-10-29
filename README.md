@@ -6,6 +6,7 @@ Code for Bluetooth Low Energy bee tracking system.
 + "Receiver" folder contains the code to be flashed to the DA14531 chip on-tag and the 'Active Scanner' code for testing & diagnostics.
 + "To Print" folder contains [FreeCAD](https://www.freecad.org/) files of the transmitter housing.
 + "Path Inference" folder contains code to process data from tag/dev board
++ Test data stored [here](https://github.com/SheffieldMLtracking/bluetooth_experiments)
 
 ## Notes on Programming Transmitter
 ### Transmitter programming:
