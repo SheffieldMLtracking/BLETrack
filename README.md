@@ -35,9 +35,8 @@ NOTE: P0.31 is used for encoder output A, P0.30 for encoder output B and P0.11 f
 ### Using a Receiever Tag
 + A programmed tag should be allowed to drain fully to hardware reset, then be charged and attatched to a bee.
 + Following retrieval, put the tag on charge and apply ground to the interrupt pin to switch the tag into transmit mode.
-+ Using a bluetooth sniffer (reccomended [nrf52 BLE sniffer](https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE)) and Wireshark the transmitted packets can be read. The following filter shows only read packets:
-<p align=center>btle.advertising_header.pdu_type == 0x01 && !_ws.expert && btle.advertising_address == 80:ea:ca:70:00:04</p> 
-+ The data of each packet is encoded in the destination addr, in the same form as the transmitted packets except the RSSI of the packet is encoded in the leftmost byte.
++ The data of each packet is encoded in the destination addr, in the same form as the transmitted packets except the RSSI of the packet is encoded in the leftmost byte. Using a bluetooth sniffer (reccomended [nrf52 BLE sniffer](https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE)) and Wireshark the transmitted packets can be read. The following filter shows only read packets:
+<p align=center>btle.advertising_header.pdu_type == 0x01 && !_ws.expert && btle.advertising_address == 80:ea:ca:70:00:04</p>
 
 ### Performing Infernece
 + Instructions for performing path inference on data are located in PathInferenceFinalCut.inpyb
