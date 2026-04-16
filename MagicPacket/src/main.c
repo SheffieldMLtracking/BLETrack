@@ -80,7 +80,7 @@ static void advertising_start(struct k_work *work)
 	transmit_addr.a.val[2] = 0x70;
 	transmit_addr.a.val[3] = 0xCA;
 	transmit_addr.a.val[4] = 0xEA;
-	transmit_addr.a.val[5] = 0x80;
+	transmit_addr.a.val[5] = 0xFF;
 													 // (arbitrary change here as an example, in practical usage adress is set to encoded data here)
 	bt_id_reset(1,&transmit_addr, NULL); // Update ID with new transmitter address
 
