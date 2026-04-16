@@ -75,7 +75,12 @@ static void advertising_start(struct k_work *work)
 	bt_addr_le_from_str("80:EA:CA:70:00:04", "public", &bond_addr);
 	
 	bt_le_adv_stop(); // Stop advertising here to change value of transmitter address before transmission
-	transmit_addr.a.val[0]=transmit_addr.a.val[0]+1; // Alter transmitter address
+	transmit_addr.a.val[0] = 0xFF;
+	transmit_addr.a.val[1] = 0xFF;
+	transmit_addr.a.val[2] = 0xFF;
+	transmit_addr.a.val[3] = 0xFF;
+	transmit_addr.a.val[4] = 0xFF;
+	transmit_addr.a.val[5] = 0xFF;
 													 // (arbitrary change here as an example, in practical usage adress is set to encoded data here)
 	bt_id_reset(1,&transmit_addr, NULL); // Update ID with new transmitter address
 

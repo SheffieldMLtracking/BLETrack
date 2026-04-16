@@ -1,4 +1,4 @@
-# Install script for directory: /home/christophernoroozi/ncs/v2.5.0/nrf
+# Install script for directory: /opt/nordic/ncs/v3.2.4/nrf/sysbuild
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -29,46 +29,6 @@ endif()
 
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
-  set(CMAKE_CROSSCOMPILING "TRUE")
-endif()
-
-# Set default install directory permissions.
-if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/home/christophernoroozi/ncs/toolchains/7795df4459/opt/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-objdump")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/ext/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/lib/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/samples/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/subsys/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/modules/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/drivers/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/christophernoroozi/Desktop/Transmitter/build_1/modules/nrf/tests/cmake_install.cmake")
+  set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
