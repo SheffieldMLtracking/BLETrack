@@ -37,7 +37,7 @@
 	status = "okay";
 	pinctrl-0 = <&qdec_pinctrl>;
 	pinctrl-names = "default";
-	steps = < 20 >;
+	steps = < 64 >;
 	led-pre = < 0 >;
 };
 
