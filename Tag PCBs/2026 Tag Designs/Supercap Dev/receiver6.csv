@@ -1,0 +1,5 @@
+"Id";"Designator";"Footprint";"Quantity";"Designation";"Supplier and ref";
+2;"Y1";"Crystal_SMD_Abracon_ABM13W-4Pin_1.2x1.0mm";1;"Crystal_GND24";;;
+3;"U1";"DA14531_17-ball_WLCSP";1;"DA14531_17-ball_WLCSP";;;
+4;"C1";"C_0402_1005Metric";1;"C";;ceramic Capacitor (22uF). e.g. GRM155R60J226ME11D;
+5;"REF**";"CAPCP3225X100N_improved";1;"CAPCP3225X100N_improved";;;
